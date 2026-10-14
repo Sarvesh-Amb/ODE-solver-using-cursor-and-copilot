@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f2">
+  <title>ODE Studio</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="ODE Studio home">
+      <span class="brand-mark" aria-hidden="true">∫</span>
+      <span>ODE <span class="brand-light">STUDIO</span></span>
+    </a>
+    <div class="topbar-meta"><span class="live-dot"></span> NUMERICAL WORKSPACE <span class="meta-divider">/</span> INITIAL VALUE PROBLEMS</div>
+    <a class="top-link" href="https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods" target="_blank" rel="noreferrer">METHOD NOTES <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main class="workspace">
+    <section class="intro">
+      <div class="eyebrow"><span>01</span> &nbsp; INITIAL VALUE PROBLEM</div>
+      <h1>Find the shape<br>of a solution.</h1>
+      <p class="intro-copy">Set a differential equation, choose a numerical method, and trace its trajectory.</p>
+    </section>
+
+    <section class="solver-layout" aria-label="ODE solver">
+      <form class="controls" id="solver-form">
+        <div class="panel-heading"><span>PROBLEM SETUP</span><span class="heading-mark">A</span></div>
+        <label class="field-label" for="expression">DIFFERENTIAL EQUATION</label>
+        <div class="equation-input"><span class="equation-prefix">dy/dt =</span><input id="expression" name="expression" value="y - t^2 + 1" spellcheck="false" autocomplete="off" aria-describedby="expression-help"></div>
+        <p class="field-hint" id="expression-help">Use <code>t</code>, <code>y</code>, constants <code>pi</code>, <code>e</code>, and math functions such as <code>sin</code> or <code>exp</code>.</p>
+
+        <div class="field-grid">
+          <label class="field"><span>START TIME <span class="symbol">t₀</span></span><input name="t0" type="number" value="0" step="any" required></label>
+          <label class="field"><span>INITIAL VALUE <span class="symbol">y₀</span></span><input name="y0" type="number" value="0.5" step="any" required></label>
+          <label class="field"><span>END TIME <span class="symbol">t₁</span></span><input name="t_end" type="number" value="2" step="any" required></label>
+          <label class="field"><span>INTERVALS <span class="symbol">n</span></span><input name="steps" type="number" value="40" min="1" max="10000" step="1" required></label>
+        </div>
+
+        <fieldset class="method-fieldset">
+          <legend class="field-label">INTEGRATION METHOD</legend>
+          <div class="method-options">
+            <label class="method-option"><input type="radio" name="method" value="Euler"><span>Euler</span></label>
+            <label class="method-option"><input type="radio" name="method" value="Heun"><span>Heun</span></label>
+            <label class="method-option"><input type="radio" name="method" value="RK4" checked><span>RK4</span></label>
+          </div>
+        </fieldset>
+
+        <button class="solve-button" type="submit"><span>Compute solution</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite">Ready to solve.</p>
+        <div class="method-note"><span class="note-rule"></span><span id="method-description">Fourth-order Runge–Kutta · local error O(h⁵)</span></div>
+      </form>
+
+      <section class="results" aria-label="Solution results">
+        <div class="chart-panel">
+          <div class="chart-heading">
+            <div><div class="panel-heading"><span>SOLUTION CURVE</span><span class="heading-mark">B</span></div><div class="chart-subtitle" id="chart-equation">y′ = y − t² + 1</div></div>
+            <div class="chart-key"><span class="key-line"></span> NUMERICAL</div>
+          </div>
+          <div class="chart-wrap"><canvas id="solution-chart" role="img" aria-label="Plot of the numerical solution"></canvas><div class="chart-empty" id="chart-empty"><span class="empty-glyph">↗</span><span>Your solution will appear here.</span></div></div>
+          <div class="axis-footer"><span id="x-axis-label">TIME (t)</span><span>DEPENDENT VARIABLE (y)</span></div>
+        </div>
+
+        <div class="readout-row">
+          <div class="readout"><span class="readout-label">FINAL VALUE <span>y(t₁)</span></span><strong id="final-value">—</strong></div>
+          <div class="readout"><span class="readout-label">STEP SIZE <span>h</span></span><strong id="step-size">—</strong></div>
+          <div class="readout"><span class="readout-label">SAMPLE POINTS <span>n + 1</span></span><strong id="sample-count">—</strong></div>
+        </div>
+
+        <div class="table-panel">
+          <div class="table-heading"><div class="panel-heading"><span>COMPUTED VALUES</span><span class="heading-mark">C</span></div><span class="table-caption" id="table-caption">t and y at each step</span></div>
+          <div class="table-scroll"><table><thead><tr><th>STEP</th><th>TIME · t</th><th>VALUE · y</th></tr></thead><tbody id="results-body"><tr class="placeholder-row"><td colspan="3">Run the solver to inspect computed values.</td></tr></tbody></table></div>
+        </div>
+      </section>
+    </section>
+    <footer class="page-footer"><span>SCALAR IVP SOLVER</span><span>EXPLICIT METHODS · DOUBLE-PRECISION FLOATING POINT</span></footer>
+  </main>
+</body>
+</html>
